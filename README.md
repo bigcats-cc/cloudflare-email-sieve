@@ -32,9 +32,7 @@ Rules that have no condition are treated as catch-all rules and will match any e
 
 ```typescript
 export const config = defineConfig({
-	forwardAddresses: [
-		{ name: 'carter', email: 'samantha.carter@sg1.airforce.mil' },
-	],
+	forwardAddresses: [{ name: 'carter', email: 'samantha.carter@sg1.airforce.mil' }],
 	rules: [
 		{
 			forwardTo: ['carter'],
@@ -59,10 +57,10 @@ export const config = defineConfig({
 		{
 			condition: {
 				or: [
-						['to', 'startsWith', 'all@'],
-						['to', 'equals', 'sg1@airforce.mil']
-					],
-				},
+					['to', 'startsWith', 'all@'],
+					['to', 'equals', 'sg1@airforce.mil'],
+				],
+			},
 			forwardTo: ['oneal', 'carter'],
 		},
 		{
@@ -76,19 +74,17 @@ export const config = defineConfig({
 
 ```typescript
 export const config = defineConfig({
-	forwardAddresses: [
-		{ name: 'carter', email: 'samantha.carter@airforce.mil' },
-	],
+	forwardAddresses: [{ name: 'carter', email: 'samantha.carter@airforce.mil' }],
 	rules: [
 		{
 			condition(message) {
-				return message.headers.get('x-secret-key') === 'foo'
+				return message.headers.get('x-secret-key') === 'foo';
 			},
 			forwardTo: ['carter'],
 		},
 		{
 			reject: 'Unauthorized',
-		}
+		},
 	],
 });
 ```

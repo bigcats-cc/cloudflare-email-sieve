@@ -7,9 +7,7 @@ export const executeAction = async (action: ResolvedRuleAction, message: Actiona
 			return;
 
 		case 'forward':
-			for (const email of action.emails) {
-				await message.forward(email);
-			}
+			await Promise.allSettled(action.emails.map((email) => message.forward(email)));
 			return;
 
 		default:
