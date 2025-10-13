@@ -21,11 +21,11 @@ export type ConditionGroup = Condition | ConditionAnd | ConditionOr | ConditionN
 
 export type Rule<TForwardAddressName extends string = string> = {
 	condition?: ConditionGroup;
-} & ({ forwardTo: NonEmptyArray<TForwardAddressName> } | { reject: string });
+} & ({ forwardTo: NonEmptyArray<NoInfer<TForwardAddressName>> } | { reject: string });
 
 export type Config<TForwardAddressName extends string = string> = {
 	forwardAddresses: NonEmptyArray<{ name: TForwardAddressName; email: string }>;
-	rules: NonEmptyArray<Rule<TForwardAddressName>>;
+	rules: NonEmptyArray<Rule<NoInfer<TForwardAddressName>>>;
 };
 
 export type ResolvedRuleAction = { type: 'reject'; message: string } | { type: 'forward'; emails: string[] };
