@@ -1,0 +1,17 @@
+{
+	"name": "cloudflare-email-sieve",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"deploy": "npx wrangler types && npx wrangler deploy",
+		"start": "npx wrangler dev",
+		"format": "prettier --write .",
+		"check": "tsc --noEmit",
+		"cf-typegen": "npx wrangler types"
+	},
+	"devDependencies": {
+		"prettier": "^3.6.2",
+		"typescript": "^5.5.2",
+		"wrangler": "^4.42.2"
+	}
+}
