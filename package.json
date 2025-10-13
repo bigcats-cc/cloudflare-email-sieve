@@ -3,7 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"deploy": "npx wrangler types && npx wrangler deploy",
+		"build": "npm run cf-typegen && npm run check",
+		"deploy": "npm run build && npx wrangler deploy",
 		"start": "npx wrangler dev",
 		"format": "prettier --write .",
 		"check": "tsc --noEmit",

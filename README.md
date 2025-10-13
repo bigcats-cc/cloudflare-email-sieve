@@ -7,6 +7,7 @@ Simple rule engine for Cloudflare Email Routing. Runs as a Cloudflare Worker.
 ### Prerequisites
 
 - NodeJS >= 24.x
+- git and knowledge of how to use it.
 - A Cloudflare account with Email Routing enabled.
 
 ### Using this project
@@ -14,7 +15,12 @@ Simple rule engine for Cloudflare Email Routing. Runs as a Cloudflare Worker.
 1. Run `npm install`
 2. Before you can use this project, you must fetch the worker typings by running this command: `npm run cf-typegen`
 3. Define your rules in `src/shell/config.ts` (see the "Defining rules" section below for more details)
-4. Log in to Cloudflare by running `npx wrangler login`
+4. Commit your changes and push to your git repository.
+5. On Cloudflare, create a new worker and choose "Import a repository".
+6. On the repository selection screen, select your git repository.
+7. Give your worker a suitable name and leave the other settings unchanged.
+8. Create and deploy your worker.
+9. Configure Email Routing to use your new worker.
 
 ## Defining rules
 
