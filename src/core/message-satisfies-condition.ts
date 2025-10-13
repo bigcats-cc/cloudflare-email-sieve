@@ -21,7 +21,7 @@ export const messageSatisfiesCondition = (condition: ConditionGroup, message: Si
 				case 'in':
 					return value.includes(fieldValue);
 				case 'matches':
-					return new RegExp(value.toString()).test(fieldValue);
+					return new RegExp(value).test(fieldValue);
 				default:
 					operator satisfies never;
 			}
