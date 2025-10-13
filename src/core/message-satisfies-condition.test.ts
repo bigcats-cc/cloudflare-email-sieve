@@ -1,13 +1,17 @@
 import { it, describe, expect } from 'vitest';
 import { messageSatisfiesCondition } from './message-satisfies-condition';
-import type { SimpleMessage } from './types';
+import type { EnrichedMessage } from './types';
+import { enrichMessage } from './enrich-message';
 
-const _mockMessage = (props: Partial<SimpleMessage> = {}): SimpleMessage => ({
-	from: '',
-	to: '',
-	headers: new Headers(),
-	raw: new ReadableStream(),
-	rawSize: 0,
+const _mockMessage = (props: Partial<EnrichedMessage> = {}): EnrichedMessage => ({
+	...enrichMessage({
+		from: 'a@b.com',
+		to: 'a@b.com',
+		headers: new Headers(),
+		raw: new ReadableStream(),
+		rawSize: 0,
+		...props,
+	}),
 	...props,
 });
 

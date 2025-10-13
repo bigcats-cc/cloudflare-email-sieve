@@ -1,7 +1,7 @@
 import { messageSatisfiesCondition } from './message-satisfies-condition';
-import type { Rule, Config, ResolvedRuleAction, SimpleMessage } from './types';
+import type { Rule, Config, ResolvedRuleAction, EnrichedMessage } from './types';
 
-export const determineActionFromMessageRules = (message: SimpleMessage, config: Config<string>): ResolvedRuleAction => {
+export const determineActionFromMessageRules = (message: EnrichedMessage, config: Config<string>): ResolvedRuleAction => {
 	for (const rule of config.rules) {
 		if (!rule.condition || messageSatisfiesCondition(rule.condition, message)) {
 			return _getRuleAction(rule, config);

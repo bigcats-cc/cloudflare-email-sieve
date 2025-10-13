@@ -1,13 +1,13 @@
-import type { ConditionGroup, SimpleMessage } from './types';
+import type { ConditionGroup, EnrichedMessage } from './types';
 
-export const messageSatisfiesCondition = (condition: ConditionGroup, message: SimpleMessage): boolean => {
+export const messageSatisfiesCondition = (condition: ConditionGroup, message: EnrichedMessage): boolean => {
 	switch (true) {
 		case typeof condition === 'function':
 			return condition(message);
 
 		case Array.isArray(condition):
 			const [field, operator, value] = condition;
-			const fieldValue = field === 'from' ? message.from : message.to;
+			const fieldValue = message[field] ?? '';
 
 			switch (operator) {
 				case 'contains':
