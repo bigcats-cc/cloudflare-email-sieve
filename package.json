@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"build": "npm run cf-typegen && npm run check && npm run test",
-		"test": "vitest --run",
+		"test": "vitest --run --typecheck",
 		"deploy": "npm run build && npx wrangler deploy",
 		"start": "npx wrangler dev",
 		"format": "prettier --write .",
