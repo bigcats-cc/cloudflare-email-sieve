@@ -51,16 +51,15 @@ export const config = defineConfig({
 	],
 	rules: [
 		{
-			condition: ['to', 'startsWith', 'jack'],
+			when: field('to', 'startsWith', 'jack'),
 			forwardTo: ['oneal'],
 		},
 		{
-			condition: {
-				or: [
-					['to', 'startsWith', 'all@'],
-					['to', 'equals', 'sg1@airforce.mil'],
-				],
-			},
+			when: or(
+				field('envelope.to.emailAddress', 'contains', 'oneal'),
+				field('to.$some.localPart', 'equals', 'all'),
+				field('to.$some.emailAddress', 'equals', 'sg1@airforce.mil'),
+			),
 			forwardTo: ['oneal', 'carter'],
 		},
 		{
@@ -77,13 +76,11 @@ export const config = defineConfig({
 	forwardAddresses: [{ name: 'carter', email: 'samantha.carter@airforce.mil' }],
 	rules: [
 		{
-			condition(message) {
-				return message.headers.get('x-secret-key') === 'foo';
-			},
+			when: (message) => message.headers.get('x-secret-key') === 'foo',
 			forwardTo: ['carter'],
 		},
 		{
-			reject: 'Unauthorized',
+			rejectWithReason: 'Unauthorized',
 		},
 	],
 });

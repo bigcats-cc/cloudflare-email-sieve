@@ -1,13 +1,3 @@
-export type {
-	SimpleMessage,
-	EnrichedMessage,
-	Importance,
-	AuthenticationResult,
-	EmailAddress,
-	Config,
-	ActionableMessage,
-	ResolvedRuleAction,
-	SimpleCondition,
-	Condition,
-	ConditionGroup,
-} from './types';
+export type { Condition, SimpleCondition, ConditionFunction, AggregateConditionFunction } from './condition';
+export type { Config, ResolvedRuleAction, Rule } from './config';
+export type { SimpleMessage, EnrichedMessage, ActionableMessage, Importance, AuthenticationResult, EmailAddress } from './message';
