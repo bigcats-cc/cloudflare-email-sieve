@@ -16,15 +16,15 @@ describe.concurrent('parseEmailAddress', () => {
 			});
 		});
 
-		it('should throw when the end chevron is missing', () => {
+		it('should parse as invalid when the end chevron is missing', () => {
 			// Arrange
 			const email = 'Some Person <some.person@some.domain';
 
 			// Act
-			const act = () => parseEmailAddress(email);
+			const result = parseEmailAddress(email);
 
 			// Assert
-			expect(act).toThrow(/invalid/i);
+			expect(result).toMatchObject({ emailAddress: 'invalid@invalid' });
 		});
 
 		it('should extract the email address', () => {
