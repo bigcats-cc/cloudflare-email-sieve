@@ -12,9 +12,13 @@
 		"cf-typegen": "npx wrangler types"
 	},
 	"devDependencies": {
+		"@types/mimetext": "^2.0.4",
 		"prettier": "^3.6.2",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.1",
 		"wrangler": "^4.42.2"
+	},
+	"dependencies": {
+		"mimetext": "^3.0.27"
 	}
 }

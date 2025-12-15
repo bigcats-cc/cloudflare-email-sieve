@@ -9,6 +9,10 @@ export type Rule<TForwardAddressName extends string = string> = {
 export type Config<TForwardAddressName extends string = string> = {
 	forwardAddresses: NonEmptyArray<{ name: TForwardAddressName; email: string }>;
 	rules: NonEmptyArray<Rule<NoInfer<TForwardAddressName>>>;
+	onError?: {
+		sendErrorReportTo?: NoInfer<TForwardAddressName>;
+		forwardOriginalMessageTo?: NoInfer<TForwardAddressName>;
+	};
 };
 
 export type ResolvedRuleAction = { type: 'reject'; message: string } | { type: 'forward'; emails: string[] };
