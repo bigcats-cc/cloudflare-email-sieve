@@ -1,6 +1,19 @@
 import type { EmailAddress } from './types';
 
+const FALLBACK_EMAIL_ADDRESS = 'invalid@invalid'
+
 export const parseEmailAddress = (email: string): EmailAddress => {
+	try {
+		return _parseEmailAddress(email);
+	} catch (thrown: unknown) {
+		const error = thrown instanceof Error ? thrown : new Error(String(thrown));
+		console.warn(`Failed to parse email address "${email}": ${error.message}. Using fallback email address "${FALLBACK_EMAIL_ADDRESS}".`);
+
+		return _parseEmailAddress(FALLBACK_EMAIL_ADDRESS)
+	}
+}
+
+const _parseEmailAddress = (email: string): EmailAddress => {
 	const normalizedEmail = email.trim().normalize('NFC');
 
 	const [displayNameOrEmail, maybeEmailWithEndChevron] = normalizedEmail.split('<', 2);
