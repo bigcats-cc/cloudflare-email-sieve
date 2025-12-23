@@ -11,7 +11,7 @@ export const parseEmailAddress = (email: string): EmailAddress => {
 };
 
 const _parseEmailAddress = (email: string): EmailAddress => {
-	const normalizedEmail = email.trim().normalize('NFC');
+	const normalizedEmail = email.trim().toLowerCase().normalize('NFC');
 
 	const [displayNameOrEmail, maybeEmailWithEndChevron] = normalizedEmail.split('<', 2);
 
