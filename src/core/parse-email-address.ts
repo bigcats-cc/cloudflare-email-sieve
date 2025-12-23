@@ -11,7 +11,7 @@ export const parseEmailAddress = (email: string): EmailAddress => {
 };
 
 const _parseEmailAddress = (email: string): EmailAddress => {
-	const normalizedEmail = email.trim().toLowerCase().normalize('NFC');
+	const normalizedEmail = email.trim().normalize('NFC');
 
 	const [displayNameOrEmail, maybeEmailWithEndChevron] = normalizedEmail.split('<', 2);
 
@@ -32,10 +32,10 @@ const _parseEmailAddress = (email: string): EmailAddress => {
 	const [, plusAlias] = localPart.split('+', 2);
 
 	return {
-		emailAddress,
-		localPart,
-		domain,
+		emailAddress: emailAddress.toLowerCase(),
+		localPart: localPart.toLowerCase(),
+		domain: domain.toLowerCase(),
 		displayName,
-		plusAlias,
+		plusAlias: plusAlias ? plusAlias.toLowerCase() : undefined,
 	};
 };
