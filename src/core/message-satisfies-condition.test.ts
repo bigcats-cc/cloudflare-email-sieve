@@ -1,18 +1,25 @@
 import { it, describe, expect } from 'vitest';
 import { messageSatisfiesCondition } from './message-satisfies-condition';
-import type { EnrichedMessage, SimpleMessage, Condition } from './types';
+import type { EnrichedMessage, SimpleMessage, Condition, ExtractedMessage } from './types';
 import { enrichMessage } from './enrich-message';
 import { and, field, not, or } from './define-config';
 
-const _mockMessage = (props: Partial<SimpleMessage> = {}): EnrichedMessage =>
-	enrichMessage({
-		from: 'a@b.com',
-		to: 'a@b.com',
-		headers: new Headers(),
-		raw: new ReadableStream(),
-		rawSize: 0,
-		...props,
-	});
+const _mockMessage = (simpleMessage: Partial<SimpleMessage> = {}, parsedMessage: Partial<ExtractedMessage> = {}): EnrichedMessage =>
+	enrichMessage(
+		{
+			from: 'a@b.com',
+			to: 'a@b.com',
+			headers: new Headers(),
+			raw: new ReadableStream(),
+			rawSize: 0,
+			...simpleMessage,
+		},
+		{
+			body: { text: '', html: '' },
+			hasAttachments: false,
+			...parsedMessage,
+		},
+	);
 
 describe.concurrent('messageSatisfiesCondition', () => {
 	describe.concurrent('with function condition', () => {
@@ -203,9 +210,17 @@ describe.concurrent('messageSatisfiesCondition', () => {
 		describe.concurrent('with $some', () => {
 			it('returns true when some array element satisfies condition', () => {
 				// Arrange
-				const message = _mockMessage({
-					headers: new Headers({ To: 'foo@bar.com, bar@baz.com' }),
-				});
+				const message = _mockMessage(
+					{
+						headers: new Headers({ To: 'foo@bar.com, bar@baz.com' }),
+					},
+					{
+						to: [
+							{ name: '', address: 'foo@bar.com' },
+							{ name: '', address: 'bar@baz.com' },
+						],
+					},
+				);
 				const condition = field('to.$some.domain', 'contains', 'baz.com');
 
 				// Act
@@ -217,9 +232,17 @@ describe.concurrent('messageSatisfiesCondition', () => {
 
 			it('returns false when no array element satisfies condition', () => {
 				// Arrange
-				const message = _mockMessage({
-					headers: new Headers({ To: 'foo@bar.com, bar@baz.com' }),
-				});
+				const message = _mockMessage(
+					{
+						headers: new Headers({ To: 'foo@bar.com, bar@baz.com' }),
+					},
+					{
+						to: [
+							{ name: '', address: 'foo@bar.com' },
+							{ name: '', address: 'bar@baz.com' },
+						],
+					},
+				);
 				const condition = field('to.$some.domain', 'contains', 'qux.com');
 
 				// Act
@@ -233,9 +256,17 @@ describe.concurrent('messageSatisfiesCondition', () => {
 		describe.concurrent('with $every', () => {
 			it('returns true when every array element satisfies condition', () => {
 				// Arrange
-				const message = _mockMessage({
-					headers: new Headers({ To: 'foo@barbaz.com, bar@baz.com' }),
-				});
+				const message = _mockMessage(
+					{
+						headers: new Headers({ To: 'foo@barbaz.com, bar@baz.com' }),
+					},
+					{
+						to: [
+							{ name: '', address: 'foo@barbaz.com' },
+							{ name: '', address: 'bar@baz.com' },
+						],
+					},
+				);
 				const condition = field('to.$every.domain', 'contains', 'baz.com');
 
 				// Act
@@ -247,9 +278,17 @@ describe.concurrent('messageSatisfiesCondition', () => {
 
 			it('returns false when some array elements do not satisfy the condition', () => {
 				// Arrange
-				const message = _mockMessage({
-					headers: new Headers({ To: 'foo@bar.com, bar@baz.com' }),
-				});
+				const message = _mockMessage(
+					{
+						headers: new Headers({ To: 'foo@bar.com, bar@baz.com' }),
+					},
+					{
+						to: [
+							{ name: '', address: 'foo@bar.com' },
+							{ name: '', address: 'bar@baz.com' },
+						],
+					},
+				);
 				const condition = field('to.$every.domain', 'contains', 'baz.com');
 
 				// Act

@@ -23,7 +23,7 @@ export type EnrichedMessage = Readonly<{
 	to: EmailAddress[];
 	cc: EmailAddress[];
 	bcc: EmailAddress[];
-	replyTo?: EmailAddress;
+	replyTo?: EmailAddress[];
 	importance?: Importance;
 	subject?: string;
 	hasAttachments: boolean;
@@ -36,8 +36,8 @@ export type EnrichedMessage = Readonly<{
 	};
 	isReply?: boolean;
 	body: {
-		raw: ReadableStream<Uint8Array>;
-		rawSize: number;
+		text: string;
+		html: string;
 	};
 	headers: Headers;
 }>;

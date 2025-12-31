@@ -12,6 +12,7 @@
 		"cf-typegen": "npx wrangler types"
 	},
 	"devDependencies": {
+		"@types/mailparser": "^3.4.6",
 		"@types/mimetext": "^2.0.4",
 		"prettier": "^3.6.2",
 		"typescript": "^5.9.3",
@@ -19,6 +20,7 @@
 		"wrangler": "^4.42.2"
 	},
 	"dependencies": {
+		"mailparser": "^3.9.1",
 		"mimetext": "^3.0.27"
 	}
 }

@@ -5,11 +5,13 @@ import { enrichMessage } from '../core/enrich-message';
 import { logError } from './adapters/cf-log-error';
 import { sendErrorReport } from './adapters/cf-send-error-report';
 import { forwardOriginalMessageOnError } from './adapters/cf-forward-original-message';
+import { nodeMailerParseMessage } from './adapters/nodemailer-parse-message';
 
 export default {
 	async email(message, env, _ctx) {
 		try {
-			const enrichedMessage = enrichMessage(message);
+			const extractedMessage = await nodeMailerParseMessage(message.raw);
+			const enrichedMessage = enrichMessage(message, extractedMessage);
 			const action = determineActionFromMessageRules(enrichedMessage, config);
 			await executeAction(action, message);
 		} catch (thrown: unknown) {
